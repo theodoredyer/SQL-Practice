@@ -21,3 +21,25 @@
 
 
 ## Integer Division
+
+1. SELECT 1 / 2;
+2. SELECT 1.0 / 2;
+3. SELECT CAST(1 AS REAL) / 2;
+4. SELECT 17 / 5;
+5. SELECT 17 / 5, 17 % 5;
+
+1. = 0
+2. = 0.5
+3. = 0.5
+4. = 3
+5. = 3 and remainder of 2 in a second column
+
+
+## Rounding Numbers
+
+SELECT 2.55555;     = 2.55555
+SELECT ROUND(2.55555);     = 3
+SELECT ROUND(2.55555, 3);    = 2.556
+SELECT ROUND(2.55555, 0);    = 3
+
+- Supported by all DB systems but syntax may differ
