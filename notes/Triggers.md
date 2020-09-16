@@ -48,3 +48,31 @@ UPDATE widgetSale SET quan = 9 WHERE id = 2;
 END TRANSACTION;
 
 SELECT * FROM widgetSale;
+
+
+## Example: Timestamps
+
+- Triggers can be used to create timestamps and update transaction values. 
+
+INSERT INTO widgetCustomer (name) VALUES ('Bob');
+INSERT INTO widgetCustomer (name) VALUES ('Sally');
+INSERT INTO widgetCustomer (name) VALUES ('Fred');
+SELECT * FROM widgetCustomer;
+
+CREATE TRIGGER stampSale AFTER INSERT ON widgetSale
+    BEGIN
+        UPDATE widgetSale SET stamp = DATETIME('now') WHERE id = NEW.id;
+        UPDATE widgetCustomer SET last_order_id = NEW.id, stamp = DATETIME('now')
+            WHERE widgetCustomer.id = NEW.customer_id;
+        INSERT INTO widgetLog (stamp, event, username, tablename, table_id)
+            VALUES (DATETIME('now'), 'INSERT', 'TRIGGER', 'widgetSale', NEW.id);
+    END
+;
+
+INSERT INTO widgetSale (item_id, customer_id, quan, price) VALUES (1, 3, 5, 1995);
+INSERT INTO widgetSale (item_id, customer_id, quan, price) VALUES (2, 2, 3, 1495);
+INSERT INTO widgetSale (item_id, customer_id, quan, price) VALUES (3, 1, 1, 2995);
+
+
+- To delete a trigger, use : DROP TRIGGER IF EXISTS trigName;
+- Implementation varies from system to system
